@@ -169,7 +169,7 @@
             <div class="countdown" id="countdown">7</div>
         </div>
         
-        <a href="index.html" class="btn-home">Go to Home Page</a>
+        <a href="../index.html" class="btn-home">Go to Home Page</a>
     </div>
     
     <script>
@@ -184,13 +184,13 @@
             if (countdown <= 0) {
                 clearInterval(countdownInterval);
                 // Redirect to home page
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             }
         }, 1000);
         
         // Also redirect after 7 seconds as backup
         setTimeout(function() {
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         }, 7000);
     </script>
 </body>
