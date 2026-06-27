@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f5f5f5;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px 0;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #e63a3a; padding: 30px 20px; text-align: center;">
+                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">🔔 New Order Received</h1>
+                            <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">H&S NoteCraft - Order Notification</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Alert Message -->
+                    <tr>
+                        <td style="padding: 30px 30px 20px 30px; background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                            <p style="color: #856404; margin: 0; font-size: 16px; font-weight: bold; line-height: 1.6;">
+                                ⚠️ Action Required: A new order has been placed and requires your attention.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Customer Information Section -->
+                    <tr>
+                        <td style="padding: 30px 30px 0 30px;">
+                            <h2 style="color: #000000; margin: 0 0 20px 0; font-size: 22px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Customer Information</h2>
+                            
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9f9f9; border-radius: 8px; padding: 20px;">
+                                <tr>
+                                    <td style="padding: 10px 0;">
+                                        <strong style="color: #333333; font-size: 15px;">Customer Name:</strong>
+                                        <span style="color: #000000; font-size: 15px; margin-left: 10px; font-weight: bold;">{{customer_name}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 0;">
+                                        <strong style="color: #333333; font-size: 15px;">Email:</strong>
+                                        <span style="color: #0066cc; font-size: 15px; margin-left: 10px;">
+                                            <a href="mailto:{{customer_email}}" style="color: #0066cc; text-decoration: none;">{{customer_email}}</a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 0;">
+                                        <strong style="color: #333333; font-size: 15px;">Phone:</strong>
+                                        <span style="color: #000000; font-size: 15px; margin-left: 10px; font-weight: bold;">
+                                            <a href="tel:{{customer_phone}}" style="color: #000000; text-decoration: none;">{{customer_phone}}</a>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Order Details Section -->
+                    <tr>
+                        <td style="padding: 30px 30px 0 30px;">
+                            <h2 style="color: #000000; margin: 0 0 20px 0; font-size: 22px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Order Details</h2>
+                            
+                            <div style="background-color: #f9f9f9; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <strong style="color: #333333; font-size: 15px;">Product:</strong>
+                                        </td>
+                                        <td style="padding: 10px 0; text-align: right;">
+                                            <span style="color: #000000; font-size: 15px; font-weight: bold;">{{product_name}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <strong style="color: #333333; font-size: 15px;">Size:</strong>
+                                        </td>
+                                        <td style="padding: 10px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 15px;">{{product_size}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <strong style="color: #333333; font-size: 15px;">Binding:</strong>
+                                        </td>
+                                        <td style="padding: 10px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 15px;">{{product_binding}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <strong style="color: #333333; font-size: 15px;">Quantity:</strong>
+                                        </td>
+                                        <td style="padding: 10px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 15px;">{{quantity}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 15px 0; border-top: 2px solid #000000; padding-top: 20px;">
+                                            <strong style="color: #000000; font-size: 20px;">Total Amount:</strong>
+                                        </td>
+                                        <td style="padding: 15px 0; text-align: right; border-top: 2px solid #000000; padding-top: 20px;">
+                                            <span style="color: #e63a3a; font-size: 24px; font-weight: bold;">Rs {{total_price}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Design Image Section -->
+                    <tr>
+                        <td style="padding: 0 30px;">
+                            <div style="background-color: #f9f9f9; border-radius: 8px; margin-bottom: 20px;">                                
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        {{{design_image}}}
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Delivery Information Section -->
+                    <tr>
+                        <td style="padding: 30px 30px 0 30px;">
+                            <h2 style="color: #000000; margin: 0 0 20px 0; font-size: 22px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Delivery Information</h2>
+                            
+                            <div style="background-color: #f9f9f9; border-radius: 8px; padding: 25px;">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <strong style="color: #333333; font-size: 15px;">Delivery Address:</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0 15px 0;">
+                                            <span style="color: #000000; font-size: 15px; line-height: 1.6; font-weight: 500;">{{delivery_address}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <strong style="color: #333333; font-size: 15px;">City:</strong>
+                                            <span style="color: #000000; font-size: 15px; margin-left: 10px; font-weight: 500;">{{city}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px 0;">
+                                            <strong style="color: #333333; font-size: 15px;">Postal Code:</strong>
+                                            <span style="color: #000000; font-size: 15px; margin-left: 10px; font-weight: 500;">{{postal_code}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Order Notes -->
+                    <tr>
+                        <td style="padding: 30px 30px 0 30px;">
+                            <h2 style="color: #000000; margin: 0 0 20px 0; font-size: 22px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Order Notes</h2>
+                            <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px;">
+                                <p style="color: #856404; margin: 0; font-size: 14px; line-height: 1.6;">{{order_notes}}</p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Order Timestamp -->
+                    <tr>
+                        <td style="padding: 30px 30px 0 30px;">
+                            <div style="background-color: #e3f2fd; border-left: 4px solid #2196f3; padding: 20px; border-radius: 4px;">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding: 5px 0;">
+                                            <strong style="color: #1565c0; font-size: 14px;">Order Date:</strong>
+                                            <span style="color: #1565c0; font-size: 14px; margin-left: 10px;">{{order_date}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 5px 0;">
+                                            <strong style="color: #1565c0; font-size: 14px;">Order Time:</strong>
+                                            <span style="color: #1565c0; font-size: 14px; margin-left: 10px;">{{order_time}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Action Required -->
+                    <tr>
+                        <td style="padding: 30px 30px 20px 30px;">
+                            <div style="background-color: #ffebee; border-left: 4px solid #e63a3a; padding: 20px; border-radius: 4px;">
+                                <h4 style="color: #c62828; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">📋 Action Required:</h4>
+                                <ul style="color: #c62828; margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+                                    <li>Contact the customer within 24 hours to confirm the order</li>
+                                    <li>Verify delivery address and contact details</li>
+                                    <li>Process the order and prepare for shipment</li>
+                                    <li>Update order status in your system</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Quick Contact -->
+                    <tr>
+                        <td style="padding: 0 30px 30px 30px;">
+                            <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; text-align: center;">
+                                <p style="color: #666666; margin: 0 0 10px 0; font-size: 14px;">
+                                    <strong>Quick Contact:</strong>
+                                </p>
+                                <p style="color: #000000; margin: 5px 0; font-size: 15px;">
+                                    📧 <a href="mailto:{{customer_email}}" style="color: #0066cc; text-decoration: none;">{{customer_email}}</a>
+                                </p>
+                                <p style="color: #000000; margin: 5px 0; font-size: 15px;">
+                                    📞 <a href="tel:{{customer_phone}}" style="color: #000000; text-decoration: none; font-weight: bold;">{{customer_phone}}</a>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f5f5f5; padding: 20px 30px; text-align: center; border-top: 1px solid #dddddd;">
+                            <p style="color: #999999; margin: 0; font-size: 12px;">
+                                This is an automated order notification from H&S NoteCraft
+                            </p>
+                            <p style="color: #999999; margin: 5px 0 0 0; font-size: 12px;">
+                                Order received on {{order_date}} at {{order_time}}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

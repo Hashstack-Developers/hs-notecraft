@@ -1,0 +1,48 @@
+.dvs-whatsapp-button {
+	position: fixed;
+	bottom: 75px;
+	right: 25px;
+	z-index: 99;
+	background-color: #0dc152;
+	border-radius: 50px;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	-webkit-box-shadow: 0 1px 6px rgba(57,73,76,.35);
+	-moz-box-shadow: 0 1px 6px rgba(57,73,76,.35);
+	box-shadow: 0 1px 6px rgba(57,73,76,.35);
+	animation: effect 5s infinite ease-in;
+}
+
+@keyframes effect {
+    20%, 100% {
+        width: 85px;
+        height: 40px;
+    }
+    0%, 10%{
+        width: 90px;
+        height: 45px;
+    }
+    5%{
+        width: 85px;
+        height: 40px;
+    }
+}
+
+
+.dvs-whatsapp-button:before {
+	content: "";
+	width: 25px;
+	height: 25px;
+	background: url('../assets/whatsapp.svg') no-repeat 0 0;
+	background-size: contain;
+}	
+
+.dvs-whatsapp-button:after {
+	content: 'Live Chat';
+	color: #cef3dc;
+	font-size: 10px;
+	margin-left: 2px;
+	font-weight: bold;
+}

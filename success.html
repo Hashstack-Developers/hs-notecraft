@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order Successful - H&S NoteCraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .success-icon svg {
+            width: 60px;
+            height: 60px;
+            color: #fff;
+        }
+        
+        .success-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 15px;
+        }
+        
+        .success-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .redirect-info {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .redirect-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .countdown {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .btn-home {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 14px 32px;
+            background: #000;
+            color: #fff;
+            border: 2px solid #000;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-home:hover {
+            background: #333;
+            border-color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 40px 20px;
+            }
+            
+            .success-title {
+                font-size: 28px;
+            }
+            
+            .success-message {
+                font-size: 16px;
+            }
+            
+            .success-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .success-icon svg {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        
+        <h1 class="success-title">Order Placed Successfully!</h1>
+        <p class="success-message">
+            Thank you for your order. We have received your order and will process it shortly.<br>
+            You will receive a confirmation call within 24 hours.
+        </p>
+        
+        <div class="redirect-info">
+            <p class="redirect-text">Redirecting to home page in:</p>
+            <div class="countdown" id="countdown">7</div>
+        </div>
+        
+        <a href="index.html" class="btn-home">Go to Home Page</a>
+    </div>
+    
+    <script>
+        let countdown = 7;
+        const countdownElement = document.getElementById('countdown');
+        
+        // Update countdown every second
+        const countdownInterval = setInterval(function() {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                // Redirect to home page
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+        
+        // Also redirect after 7 seconds as backup
+        setTimeout(function() {
+            window.location.href = 'index.html';
+        }, 7000);
+    </script>
+</body>
+</html>
+

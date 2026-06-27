@@ -1,0 +1,42 @@
+Subject: Order Confirmed - H&S NoteCraft
+
+Dear {{customer_name}},
+
+Thank you for your order with H&S NoteCraft! We have received your order and will process it shortly.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ORDER DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Product: {{product_name}}
+Size: {{product_size}}
+Binding: {{product_binding}}
+Quantity: {{quantity}}
+Total Price: Rs {{total_price}}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DELIVERY INFORMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Delivery Address: {{delivery_address}}
+City: {{city}}
+Postal Code: {{postal_code}}
+
+Order Date: {{order_date}}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT'S NEXT?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• You will receive a confirmation call within 24 hours
+• Standard delivery time is 7 business days
+• Payment will be collected via Cash on Delivery (COD)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+If you have any questions about your order, please contact us at hsnotecraft@gmail.com
+
+Thank you for choosing H&S NoteCraft!
+
+© 2025 H&S NoteCraft. All rights reserved.
+

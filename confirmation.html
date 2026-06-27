@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order Confirmation - H&S NoteCraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .confirmation-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .success-icon {
+            text-align: center;
+            font-size: 80px;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .page-subtitle {
+            font-size: 18px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .confirmation-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .info-value {
+            color: #666;
+            text-align: right;
+        }
+        
+        .order-item {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .order-item-image {
+            width: 100px;
+            height: 120px;
+            border-radius: 4px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+        
+        .order-item-details {
+            flex: 1;
+        }
+        
+        .order-item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+        }
+        
+        .order-item-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .order-item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+            margin-top: 10px;
+        }
+        
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #000;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .total-row.final {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .btn-proceed {
+            width: 100%;
+            padding: 16px 32px;
+            background: #000;
+            color: #fff;
+            border: 2px solid #000;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+        }
+        
+        .btn-proceed:hover:not(:disabled) {
+            background: #333;
+            border-color: #333;
+        }
+        
+        .btn-proceed:disabled {
+            background: #666;
+            border-color: #666;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .note-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .note-box p {
+            margin: 0;
+            color: #856404;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 24px;
+            }
+            
+            .confirmation-section {
+                padding: 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .info-value {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-page">
+        <div class="success-icon">✓</div>
+        <h1 class="page-title">Order Confirmed!</h1>
+        <p class="page-subtitle">Thank you for your order. We'll process it shortly.</p>
+        
+        <!-- Order Summary -->
+        <div class="confirmation-section">
+            <h2 class="section-title">Order Summary</h2>
+            <div id="order-summary">
+                <!-- Order summary will be dynamically loaded -->
+            </div>
+        </div>
+        
+        <!-- Customer Information -->
+        <div class="confirmation-section">
+            <h2 class="section-title">Customer Information</h2>
+            <div id="customer-info">
+                <!-- Customer info will be dynamically loaded -->
+            </div>
+        </div>
+        
+        <!-- Delivery Information -->
+        <div class="confirmation-section">
+            <h2 class="section-title">Delivery Information</h2>
+            <div id="delivery-info">
+                <!-- Delivery info will be dynamically loaded -->
+            </div>
+            <div class="note-box">
+                <p><strong>Note:</strong> We offer Cash on Delivery (COD) throughout Pakistan. You will receive a confirmation call within 24 hours. Standard delivery time is 7 business days.</p>
+            </div>
+        </div>
+        
+        <button type="button" class="btn-proceed" id="proceed-btn">Proceed</button>
+    </div>
+    
+    <!-- EmailJS Library -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <script>
+        // Initialize EmailJS
+        // Note: Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+        // You can get this from https://www.emailjs.com/
+        emailjs.init("ifLTrwJx1aND7QXqJ"); // Replace with your EmailJS Public Key
+        
+        // Products Database (same as order.html)
+        const productsDatabase = {
+            '41497': { id: '41497', title: 'Mood Notebook', price: '470', images: ['wp-content/uploads/2022/02/sponge-bob-600x720.png'] },
+            '41496': { id: '41496', title: 'Panda"s Notebook', price: '470', images: ['wp-content/uploads/2022/02/pandas-friend-600x720.png'] },
+            '54176': { id: '54176', title: 'Jab We Met Notebook', price: '470', images: ['wp-content/uploads/2025/07/Go-Wild-Front-MFW-600x720.jpeg'] },
+            '54191': { id: '54191', title: 'Nick Wilde Notebook', price: '470', images: ['wp-content/uploads/2025/07/Positive-Vibes-Front-MFW-600x720.png'] },
+            '54146': { id: '54146', title: 'Teri Chaiye Ni Raye Notebook', price: '470', images: ['wp-content/uploads/2025/07/Colcano-Front-MFW-600x720.jpeg'] },
+            '54161': { id: '54161', title: 'Rise & Shine Notebook', price: '470', images: ['wp-content/uploads/2025/07/Discover-Yourself-Front-MFW-600x720.jpeg'] },
+            '31523': { id: '31523', title: 'Study Is Easy But I Am Busy Notebook', price: '470', images: ['wp-content/uploads/2022/02/Go-with-Flow-Front-600x720.png'] },
+            '31510': { id: '31510', title: 'Peanuts Notebook', price: '470', images: ['wp-content/uploads/2022/02/Bright-Side-front-600x720.png'] },
+            // '31536': { id: '31536', title: 'Yellow Car Notebook', price: '470', images: ['wp-content/uploads/2022/02/Remember-The-Lesson-Front-600x720.png'] },
+            '31495': { id: '31495', title: 'We Bear Bears Notebook', price: '470', images: ['wp-content/uploads/2022/02/Beautiful-Destinations-Front-600x720.png'] },
+            '527': { id: '527', title: 'A4 Customized Notebook Premium', price: '570', images: ['wp-content/uploads/2016/07/A4-thumbnail-600x720.jpg'] },
+            '534': { id: '534', title: 'A4 Customized Notebook', price: '570', images: ['wp-content/uploads/2016/07/A5-thumbnail-600x720.jpg'] },
+            '10280': { id: '10280', title: 'Customized Greeting Card', price: '570', images: ['wp-content/uploads/2018/01/4side-front-2-600x720.jpg'] },
+            '34137': { id: '34137', title: 'A4 Customized Pocket Diary Pad', price: '570', images: ['wp-content/uploads/2022/08/A6-diary-min-1-600x720.jpg'] },
+            'eidi-envelopes': { id: 'eidi-envelopes', title: 'Eidi Envelopes - Pack of 6', price: '150', images: ['eid6.jpeg'] }
+        };
+        
+        // Load confirmation data
+        function loadConfirmation() {
+            const orderDataStr = sessionStorage.getItem('orderData');
+            
+            if (!orderDataStr) {
+                document.getElementById('order-summary').innerHTML = '<p>No order data found. Please go back and try again.</p>';
+                return;
+            }
+            
+            const orderData = JSON.parse(orderDataStr);
+            const product = productsDatabase[orderData.productId];
+            
+            if (!product) {
+                document.getElementById('order-summary').innerHTML = '<p>Product not found.</p>';
+                return;
+            }
+            
+            const unitPrice = parseInt(product.price);
+            const quantity = parseInt(orderData.quantity);
+            const subtotal = unitPrice * quantity;
+            
+            // Calculate delivery charges: Use stored value if available, otherwise calculate
+            const deliveryCharges = orderData.deliveryCharges !== undefined ? parseInt(orderData.deliveryCharges) : (subtotal >= 2000 ? 0 : 200);
+            const totalPrice = orderData.totalPrice !== undefined ? parseInt(orderData.totalPrice) : (subtotal + deliveryCharges);
+            
+            // Check for custom design from sessionStorage
+            const designType = sessionStorage.getItem('designType');
+            const customDesignImage = sessionStorage.getItem('customDesignImage');
+            const selectedDesignUrl = sessionStorage.getItem('selectedDesignUrl');
+            
+            let designImageHTML = '';
+            if (designType === 'upload' && customDesignImage) {
+                designImageHTML = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="font-weight: 600; margin-bottom: 10px; color: #000;">Your Custom Front Page Design:</div>
+                        <img src="${customDesignImage}" alt="Custom Design" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="margin-top: 10px; font-size: 14px; color: #666;">This is the design you uploaded for the front page.</div>
+                    </div>
+                `;
+            } else if (designType === 'existing' && selectedDesignUrl) {
+                designImageHTML = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="font-weight: 600; margin-bottom: 10px; color: #000;">Selected Front Page Design:</div>
+                        <img src="${selectedDesignUrl}" alt="Selected Design" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="margin-top: 10px; font-size: 14px; color: #666;">This is the design you selected from Campus Notecrafts.</div>
+                    </div>
+                `;
+            }
+            
+            // Get variant from orderData or default
+            const variant = orderData.variant || '4-subjects';
+            const variantDisplayName = orderData.variantDisplayName || (variant === '2-subjects' ? '2 Subjects Notebook' : (variant === 'pack-of-6' ? 'Pack of 6' : (variant === '4-subjects' ? '4 Subjects Notebook' : (variant === '6-subjects' ? '6 Subjects Notebook' : (variant === '8-subjects' ? '8 Subjects Notebook' : '4 Subjects Notebook')))));
+            const isEidiEnvelopes = orderData.productId === 'eidi-envelopes';
+            
+            // Use stored delivery/total for Eidi (per-envelope pricing)
+            let finalUnitPrice, finalSubtotal, finalDeliveryCharges, finalTotalPrice;
+            var eidiTotalPacks = orderData.eidiTotalPacks || 0;
+            var eidiPackPrice = 150;
+            if (isEidiEnvelopes && orderData.subtotal !== undefined && orderData.totalPrice !== undefined) {
+                finalSubtotal = parseInt(orderData.subtotal);
+                finalDeliveryCharges = parseInt(orderData.deliveryCharges);
+                finalTotalPrice = parseInt(orderData.totalPrice);
+                finalUnitPrice = eidiPackPrice;
+            } else {
+                let calculatedUnitPrice = parseInt(product.price);
+                if (variant === '2-subjects') calculatedUnitPrice = 270;
+                else if (variant === '4-subjects') calculatedUnitPrice = 470;
+                else if (variant === '6-subjects') calculatedUnitPrice = 670;
+                else if (variant === '8-subjects') calculatedUnitPrice = 870;
+                finalUnitPrice = orderData.variant && orderData.variant !== 'pack-of-6' ? calculatedUnitPrice : unitPrice;
+                finalSubtotal = finalUnitPrice * quantity;
+                finalDeliveryCharges = orderData.deliveryCharges !== undefined ? parseInt(orderData.deliveryCharges) : (finalSubtotal >= 2000 ? 0 : 200);
+                finalTotalPrice = orderData.totalPrice !== undefined ? parseInt(orderData.totalPrice) : (finalSubtotal + finalDeliveryCharges);
+            }
+            
+            // Order Summary
+            const orderSummaryHTML = `
+                <div class="order-item">
+                    <img src="${product.images[0]}" alt="${product.title}" class="order-item-image">
+                    <div class="order-item-details">
+                        <div class="order-item-title">${product.title}</div>
+                        ${orderData.variant ? `<div class="order-item-info">${isEidiEnvelopes ? 'Pack: Pack of 6 (Rs 150 per pack)' : 'Variant: '}${variantDisplayName}</div>` : ''}
+                        ${isEidiEnvelopes && orderData.envelope ? `<div class="order-item-info">Envelope(s): ${(function(){ try { var p = JSON.parse(orderData.envelope); return Array.isArray(p) ? p.join(', ') : orderData.envelope; } catch(e) { return orderData.envelope; } })()}</div>` : ''}
+                        ${isEidiEnvelopes && eidiTotalPacks ? `<div class="order-item-info">Total: ${eidiTotalPacks} pack(s) (${orderData.quantity} pack(s) per design)</div>` : ''}
+                        ${!isEidiEnvelopes ? `<div class="order-item-info">Size: ${orderData.size}</div><div class="order-item-info">Binding: ${orderData.binding}</div><div class="order-item-info">Quantity: ${orderData.quantity}</div>` : ''}
+                        <div class="order-item-price">Rs ${finalUnitPrice}${isEidiEnvelopes ? ' per pack' : ''}</div>
+                    </div>
+                </div>
+                ${designImageHTML}
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>${isEidiEnvelopes && eidiTotalPacks ? (eidiTotalPacks + ' × Rs ' + eidiPackPrice + ' = Rs ' + finalSubtotal) : (quantity + ' × Rs ' + finalUnitPrice + ' = Rs ' + finalSubtotal)}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery Charges:</span>
+                        <span>${finalDeliveryCharges === 0 ? '<span style="color: #28a745; font-weight: 600;">FREE</span>' : 'Rs ' + finalDeliveryCharges}</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span>Rs ${finalTotalPrice}</span>
+                    </div>
+                    ${isEidiEnvelopes ? (finalDeliveryCharges === 0 ? `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border: 2px solid #4caf50; border-radius: 4px; font-size: 14px; color: #2e7d32; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> You qualify for free delivery on this order.</p>
+                    </div>
+                    ` : `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border: 2px solid #ddd; border-radius: 4px; font-size: 14px; color: #333; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> Delivery charges Rs 200 apply for Eidi Envelopes. Free delivery on orders Rs 2000+.</p>
+                    </div>
+                    `) : (finalSubtotal < 2000 ? `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #fff9e6; border: 2px solid #f4d03f; border-radius: 4px; font-size: 14px; color: #556b2f; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> Get free delivery on all orders worth Rs. 2000/- or more.</p>
+                    </div>
+                    ` : `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border: 2px solid #4caf50; border-radius: 4px; font-size: 14px; color: #2e7d32; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> Congratulations! You qualify for free delivery on this order.</p>
+                    </div>
+                    `)}
+                </div>
+            `;
+            
+            document.getElementById('order-summary').innerHTML = orderSummaryHTML;
+            
+            // Customer Information
+            const customerInfoHTML = `
+                <div class="info-row">
+                    <span class="info-label">Full Name:</span>
+                    <span class="info-value">${orderData.fullName}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">${orderData.email}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone:</span>
+                    <span class="info-value">${orderData.phone}</span>
+                </div>
+            `;
+            
+            document.getElementById('customer-info').innerHTML = customerInfoHTML;
+            
+            // Delivery Information
+            const deliveryInfoHTML = `
+                <div class="info-row">
+                    <span class="info-label">Delivery Address:</span>
+                    <span class="info-value">${orderData.address}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">City:</span>
+                    <span class="info-value">${orderData.city}</span>
+                </div>
+                ${orderData.postalCode ? `
+                <div class="info-row">
+                    <span class="info-label">Postal Code:</span>
+                    <span class="info-value">${orderData.postalCode}</span>
+                </div>
+                ` : ''}
+                ${orderData.notes ? `
+                <div class="info-row">
+                    <span class="info-label">Order Notes:</span>
+                    <span class="info-value">${orderData.notes}</span>
+                </div>
+                ` : ''}
+            `;
+            
+            document.getElementById('delivery-info').innerHTML = deliveryInfoHTML;
+        }
+        
+        // Function to send emails
+        async function sendEmails(orderData, product) {
+            try {
+                const variant = orderData.variant || '4-subjects';
+                const isEidiEnvelopes = orderData.productId === 'eidi-envelopes';
+                const quantity = parseInt(orderData.quantity);
+                
+                let finalUnitPrice, finalSubtotal, finalDeliveryCharges, finalTotalPrice;
+                if (isEidiEnvelopes && orderData.subtotal !== undefined && orderData.totalPrice !== undefined) {
+                    finalSubtotal = parseInt(orderData.subtotal);
+                    finalDeliveryCharges = parseInt(orderData.deliveryCharges);
+                    finalTotalPrice = parseInt(orderData.totalPrice);
+                    finalUnitPrice = 150;
+                } else {
+                    let calculatedUnitPrice = parseInt(product.price);
+                    if (variant === '2-subjects') calculatedUnitPrice = 270;
+                    else if (variant === '4-subjects') calculatedUnitPrice = 470;
+                    else if (variant === '6-subjects') calculatedUnitPrice = 670;
+                    else if (variant === '8-subjects') calculatedUnitPrice = 870;
+                    finalUnitPrice = (orderData.variant && orderData.variant !== 'pack-of-6') ? calculatedUnitPrice : parseInt(product.price);
+                    finalSubtotal = finalUnitPrice * quantity;
+                    finalDeliveryCharges = orderData.deliveryCharges !== undefined ? parseInt(orderData.deliveryCharges) : (finalSubtotal >= 2000 ? 0 : 200);
+                    finalTotalPrice = orderData.totalPrice !== undefined ? parseInt(orderData.totalPrice) : (finalSubtotal + finalDeliveryCharges);
+                }
+                
+                // Get design image from sessionStorage
+                const designType = sessionStorage.getItem('designType');
+                const customDesignImage = sessionStorage.getItem('customDesignImage');
+                const selectedDesignUrl = sessionStorage.getItem('selectedDesignUrl');
+                
+                // Function to compress base64 image
+                function compressImage(base64String, maxWidth = 800, quality = 0.7) {
+                    return new Promise((resolve) => {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            let width = img.width;
+                            let height = img.height;
+                            
+                            // Calculate new dimensions
+                            if (width > maxWidth) {
+                                height = (height * maxWidth) / width;
+                                width = maxWidth;
+                            }
+                            
+                            canvas.width = width;
+                            canvas.height = height;
+                            
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+                            
+                            // Convert to compressed base64
+                            const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+                            resolve(compressedBase64);
+                        };
+                        img.onerror = function() {
+                            resolve(null);
+                        };
+                        img.src = base64String;
+                    });
+                }
+                
+                // Check if this is a "Create Your Own" product
+                const createYourOwnProducts = ['527', '534', '10280', '34137'];
+                const isCreateYourOwn = createYourOwnProducts.includes(orderData.productId);
+                
+                let designImageHtml = '';
+                let designImageSection = ''; // Full section HTML
+                
+                // Only process design image if it's a Create Your Own product and has design
+                if (isCreateYourOwn && ((designType === 'upload' && customDesignImage) || (designType === 'existing' && selectedDesignUrl))) {
+                    if (designType === 'upload' && customDesignImage) {
+                        // Compress and use base64 image for uploaded custom design
+                        const compressedImage = await compressImage(customDesignImage);
+                        if (compressedImage && compressedImage.length < 50000) {
+                            designImageHtml = `<img src="${compressedImage}" alt="Custom Design" style="max-width: 100%; max-height: 400px; border-radius: 8px; margin: 10px 0;">`;
+                        } else {
+                            // If still too large, just mention it
+                            designImageHtml = '<p><strong>Custom Design:</strong> Image uploaded by customer (too large to include in email)</p>';
+                        }
+                    } else if (designType === 'existing' && selectedDesignUrl) {
+                        // Use URL for selected existing design
+                        designImageHtml = `<img src="${selectedDesignUrl}" alt="Selected Design" style="max-width: 100%; max-height: 400px; border-radius: 8px; margin: 10px 0;">`;
+                    }
+                    
+                    // Create full section HTML only if we have an image
+                    if (designImageHtml) {
+                        designImageSection = `
+                            <tr>
+                                <td style="">
+                                    <div style="background-color: #f9f9f9; border-radius: 8px;">
+                                        <h3 style="color: #000000; margin: 0 0 15px 0; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Your Custom Design</h3>
+                                        <p style="color: #666666; margin: 0 0 15px 0; font-size: 14px; line-height: 1.6;">
+                                            Below is the design you selected/uploaded for your notebook's front page:
+                                        </p>
+                                        <div style="text-align: center; margin-top: 15px;">
+                                            ${designImageHtml}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }
+                
+                // Get variant display name for email
+                let variantForEmail = orderData.variantDisplayName || (orderData.variant === 'pack-of-6' ? 'Pack of 6' : (orderData.variant === '2-subjects' ? '2 Subjects Notebook' : (orderData.variant === '4-subjects' ? '4 Subjects Notebook' : (orderData.variant === '6-subjects' ? '6 Subjects Notebook' : (orderData.variant === '8-subjects' ? '8 Subjects Notebook' : 'N/A')))));
+                if (isEidiEnvelopes && orderData.envelope) {
+                    try {
+                        var envList = JSON.parse(orderData.envelope);
+                        variantForEmail = variantForEmail + ' | Envelope(s): ' + (Array.isArray(envList) ? envList.join(', ') : orderData.envelope);
+                    } catch (e) {
+                        variantForEmail = variantForEmail + ' | Envelope: ' + orderData.envelope;
+                    }
+                }
+                
+                // Prepare email data for customer
+                const customerEmailParams = {
+                    to_email: orderData.email,
+                    to_name: orderData.fullName,
+                    customer_name: orderData.fullName,
+                    customer_email: orderData.email,
+                    customer_phone: orderData.phone,
+                    product_name: product.title,
+                    product_variant: variantForEmail,
+                    product_size: orderData.size,
+                    product_binding: orderData.binding,
+                    quantity: orderData.quantity,
+                    total_price: finalTotalPrice.toString(),
+                    delivery_address: orderData.address,
+                    city: orderData.city,
+                    postal_code: orderData.postalCode || 'N/A',
+                    order_notes: orderData.notes || 'None',
+                    order_date: new Date().toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    }),
+                    design_image: designImageSection || ''
+                };
+                
+                // Prepare email data for owner
+                const ownerEmailParams = {
+                    to_email: 'hsnotecraft@gmail.com', // Replace with actual owner email
+                    customer_name: orderData.fullName,
+                    customer_email: orderData.email,
+                    customer_phone: orderData.phone,
+                    product_name: product.title,
+                    product_variant: variantForEmail,
+                    product_size: orderData.size,
+                    product_binding: orderData.binding,
+                    quantity: orderData.quantity,
+                    total_price: finalTotalPrice.toString(),
+                    delivery_address: orderData.address,
+                    city: orderData.city,
+                    postal_code: orderData.postalCode || 'N/A',
+                    order_notes: orderData.notes || 'None',
+                    order_date: new Date().toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    }),
+                    order_time: new Date().toLocaleTimeString('en-US'),
+                    design_image: designImageSection || ''
+                };
+                
+                // Send email to customer
+                // Replace 'YOUR_SERVICE_ID' and 'YOUR_CUSTOMER_TEMPLATE_ID' with your actual EmailJS service and template IDs
+                await emailjs.send(
+                    'service_zp6nb5h', // Replace with your EmailJS Service ID
+                    'template_nk9829i', // Replace with your Customer Email Template ID
+                    customerEmailParams
+                );
+                
+                // Send email to owner
+                // Replace 'YOUR_SERVICE_ID' and 'YOUR_OWNER_TEMPLATE_ID' with your actual EmailJS service and template IDs
+                await emailjs.send(
+                    'service_zp6nb5h', // Replace with your EmailJS Service ID
+                    'template_mqqfn47', // Replace with your Owner Email Template ID
+                    ownerEmailParams
+                );
+                
+                console.log('Emails sent successfully');
+                return true;
+            } catch (error) {
+                console.error('Error sending emails:', error);
+                // Even if email fails, still redirect to success page
+                return false;
+            }
+        }
+        
+        // Proceed button handler - send emails and redirect to success page
+        document.getElementById('proceed-btn').addEventListener('click', async function() {
+            const btn = this;
+            const originalText = btn.textContent;
+            
+            // Disable button and show loading state
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            
+            try {
+                // Get order data
+                const orderDataStr = sessionStorage.getItem('orderData');
+                if (!orderDataStr) {
+                    alert('Order data not found. Redirecting to order page...');
+                    window.location.href = 'order.html';
+                    return;
+                }
+                
+                const orderData = JSON.parse(orderDataStr);
+                const product = productsDatabase[orderData.productId];
+                
+                if (!product) {
+                    alert('Product not found. Redirecting to order page...');
+                    window.location.href = 'order.html';
+                    return;
+                }
+                
+                // Send emails
+                const emailSent = await sendEmails(orderData, product);
+                
+                // Check if emails were sent successfully
+                if (emailSent) {
+                    // Redirect to success page
+                    window.location.href = 'success.html';
+                } else {
+                    // Redirect to failure page if emails failed
+                    //window.location.href = 'failure.html';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Redirect to failure page on error
+                window.location.href = 'failure.html';
+            }
+        });
+        
+        // Load confirmation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfirmation();
+        });
+    </script>
+</body>
+</html>
+

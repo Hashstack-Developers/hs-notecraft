@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order Failed - H&S NoteCraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .failure-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .failure-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: #e63a3a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .failure-icon svg {
+            width: 60px;
+            height: 60px;
+            color: #fff;
+        }
+        
+        .failure-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 15px;
+        }
+        
+        .failure-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .error-details {
+            background: #ffebee;
+            border-left: 4px solid #e63a3a;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .error-details h4 {
+            color: #c62828;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .error-details p {
+            color: #c62828;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .redirect-info {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .redirect-text {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .countdown {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .btn-retry {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 14px 32px;
+            background: #000;
+            color: #fff;
+            border: 2px solid #000;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-retry:hover {
+            background: #333;
+            border-color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .failure-container {
+                padding: 40px 20px;
+            }
+            
+            .failure-title {
+                font-size: 28px;
+            }
+            
+            .failure-message {
+                font-size: 16px;
+            }
+            
+            .failure-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .failure-icon svg {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="failure-container">
+        <div class="failure-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </div>
+        
+        <h1 class="failure-title">Order Submission Failed</h1>
+        <p class="failure-message">
+            We encountered an issue while processing your order. Please try again.
+        </p>
+        
+        <div class="error-details">
+            <h4>What happened?</h4>
+            <p>
+                There was a problem sending your order confirmation. Your order details have been saved, but we couldn't send the confirmation email at this time.
+            </p>
+        </div>
+        
+        <div class="redirect-info">
+            <p class="redirect-text">Redirecting to order page in:</p>
+            <div class="countdown" id="countdown">7</div>
+        </div>
+        
+        <a href="order.html" class="btn-retry">Try Again</a>
+    </div>
+    
+    <script>
+        // Get order data from sessionStorage to preserve it
+        const orderDataStr = sessionStorage.getItem('orderData');
+        let redirectUrl = 'order.html';
+        
+        // If we have order data, append it to the URL to preserve selections
+        if (orderDataStr) {
+            try {
+                const orderData = JSON.parse(orderDataStr);
+                const params = new URLSearchParams({
+                    id: orderData.productId,
+                    size: orderData.size || 'A4',
+                    binding: orderData.binding || 'Spiral',
+                    quantity: orderData.quantity || '1'
+                });
+                redirectUrl = 'order.html?' + params.toString();
+            } catch (e) {
+                console.error('Error parsing order data:', e);
+            }
+        }
+        
+        let countdown = 7;
+        const countdownElement = document.getElementById('countdown');
+        
+        // Update countdown every second
+        const countdownInterval = setInterval(function() {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                // Redirect to order page
+                window.location.href = redirectUrl;
+            }
+        }, 1000);
+        
+        // Also redirect after 7 seconds as backup
+        setTimeout(function() {
+            window.location.href = redirectUrl;
+        }, 7000);
+    </script>
+</body>
+</html>
+

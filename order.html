@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order - H&S NoteCraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .order-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .order-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .order-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-group label .required {
+            color: #e63a3a;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #000;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .order-summary {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .order-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .order-item-image {
+            width: 100px;
+            height: 120px;
+            border-radius: 4px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+        
+        .order-item-details {
+            flex: 1;
+        }
+        
+        .order-item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+        }
+        
+        .order-item-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .order-item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+            margin-top: 10px;
+        }
+        
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #000;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .total-row.final {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 16px 32px;
+            background: #000;
+            color: #fff;
+            border: 2px solid #000;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+        }
+        
+        .btn-submit:hover {
+            background: #333;
+            border-color: #333;
+        }
+        
+        .btn-submit:disabled {
+            background: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 768px) {
+            .order-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+            
+            .order-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="order-page">
+        <h1 class="page-title">Place Your Order</h1>
+        
+        <div class="order-container">
+            <!-- Order Details Section -->
+            <div class="order-section">
+                <h2 class="section-title">Order Details</h2>
+                <div id="order-details">
+                    <!-- Order details will be dynamically loaded -->
+                </div>
+            </div>
+            
+            <!-- Customer Details Form -->
+            <div class="order-section">
+                <h2 class="section-title">Customer Information</h2>
+                <form id="order-form">
+                    <div class="form-group">
+                        <label for="full-name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="full-name" name="fullName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Delivery Address <span class="required">*</span></label>
+                        <textarea id="address" name="address" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">City <span class="required">*</span></label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="postal-code">Postal Code</label>
+                        <input type="text" id="postal-code" name="postalCode">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Order Notes (Optional)</label>
+                        <textarea id="notes" name="notes" placeholder="Any special instructions or notes for your order..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Proceed to Confirmation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('[ORDER] inline order script loaded, document.readyState=', document.readyState);
+        // Products Database (same as single-product.html)
+        const productsDatabase = {
+           '41497': {
+                                    id: '41497',
+                                    slug: 'sponge-bob-notebook',
+                                    title: "Mood Notebook",
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2022/02/sponge-bob-600x720.png',
+                                        'wp-content/uploads/2025/07/Inner-page-orange-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Experience the perfect blend of style and functionality with our Mood Notebook. This premium notebook features high-quality paper, durable binding, and a vibrant design that inspires creativity. Perfect for students, professionals, and creative individuals who value both aesthetics and practicality.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+            '41496': {
+                                    id: '41496',
+                                    slug: 'pandas-friend-notebook',
+                                    title: "Panda's Friend Notebook",
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2022/02/pandas-friend-600x720.png',
+                                        'wp-content/uploads/2025/07/Inner-page-orange-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Experience the perfect blend of style and functionality with our Panda"s Friend Notebook. This premium notebook features high-quality paper, durable binding, and a vibrant design that inspires creativity. Perfect for students, professionals, and creative individuals who value both aesthetics and practicality.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                '54176': {
+                                    id: '54176',
+                                    slug: 'jab-we-met-notebook',
+                                    title: 'Jab We Met Notebook',
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2025/07/Go-Wild-Front-MFW-600x720.jpeg',
+                                        'wp-content/uploads/2025/07/Inner-page-orange-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Experience the perfect blend of style and functionality with our Jab We Met Notebook. This premium notebook features high-quality paper, durable binding, and a vibrant design that inspires creativity. Perfect for students, professionals, and creative individuals who value both aesthetics and practicality.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                '54191': {
+                                    id: '54191',
+                                    slug: 'im-not-lazy-i-just-dont-care-notebook',
+                                    title: 'Nick Wilde Notebook',
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2025/07/Positive-Vibes-Front-MFW-600x720.png',
+                                        'wp-content/uploads/2025/07/Inner-page-green-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Spread positivity with our Nick Wilde Notebook. Designed to inspire and motivate, this notebook features uplifting designs and premium quality materials. Perfect for journaling, note-taking, or as a thoughtful gift.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                '54146': {
+                                    id: '54146',
+                                    slug: 'mathematics-notebook',
+                                    title: 'Teri Chaiye Ni Raye Notebook',
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2025/07/Colcano-Front-MFW-600x720.jpeg',
+                                        'wp-content/uploads/2025/07/Inner-page-orange-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'The Teri Chaiye Ni Raye Notebook brings a burst of color and energy to your daily writing. With its vibrant design and premium construction, this notebook is perfect for those who love bold, expressive stationery.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                '54161': {
+                                    id: '54161',
+                                    slug: 'just-keep-going-notebook',
+                                    title: 'Rise & Shine Notebook',
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2025/07/Discover-Yourself-Front-MFW-600x720.jpeg',
+                                        'wp-content/uploads/2025/07/Inner-page-green-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Embark on a journey of self-discovery with our Rise & Shine Notebook. This thoughtfully designed notebook encourages reflection and personal growth, making it perfect for journaling and self-exploration.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                '31523': {
+                                    id: '31523',
+                                    slug: 'study-is-easy-but-i-am-busy-notebook',
+                                    title: 'Study Is Easy But I Am Busy Notebook',
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2022/02/Go-with-Flow-Front-600x720.png',
+                                        'wp-content/uploads/2019/09/page-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Study Is Easy But I Am Busy Notebook. Perfect for those who appreciate simplicity and elegance in their daily writing.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                '31510': {
+                                    id: '31510',
+                                    slug: 'peanuts-notebook',
+                                    title: 'Peanuts Notebook',
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2022/02/Bright-Side-front-600x720.png',
+                                        'wp-content/uploads/2019/09/page-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Peanuts Notebook. Its vibrant design brings joy to your daily writing routine.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                // '31536': {
+                                //     id: '31536',
+                                //     slug: 'everything-you-want-is-on-the-other-side-of-fear-notebook',
+                                //     title: 'Yellow Car Notebook',
+                                //     price: '470',
+                                //     images: [
+                                //         'wp-content/uploads/2022/02/Remember-The-Lesson-Front-600x720.png',
+                                //         'wp-content/uploads/2019/09/page-600x720.jpg',
+                                //         'wp-content/uploads/2025/07/back.png'
+                                //     ],
+                                //     description: 'Yellow Car Notebook. Perfect for students and lifelong learners who value wisdom and knowledge.',
+                                //     details: [
+                                //         'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                //         'High-brightness white pages with English ruling for clean, tidy notes',
+                                //         'Available in no division option',
+                                //         '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                //         '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                //         'Strong loop binding for smooth page turning and easy flat-lay use',
+                                //         'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                //     ]
+                                // },
+                                '31495': {
+                                    id: '31495',
+                                    slug: 'one-step-at-a-time-notebook',
+                                    title: 'We Bear Bears Notebook',
+                                    price: '470',
+                                    images: [
+                                        'wp-content/uploads/2022/02/Beautiful-Destinations-Front-600x720.png',
+                                        'wp-content/uploads/2019/09/page-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'We Bear Bears Notebook. Designed to motivate and inspire, it\'s perfect for goal-setting and personal development.',
+                                    details: [
+                                        'Near-A4 size for spacious writing (approx. 8.5" × 11")',
+                                        'High-brightness white pages with English ruling for clean, tidy notes',
+                                        'Available in no division option',
+                                        '4 Subjects Notebook: Total 80 pages, 160 single-side pages (1 printed side = 1 page)',
+                                        '2 Subjects Notebook: Total 40 pages, 80 single-side pages (1 printed side = 1 page)',
+                                        'Strong loop binding for smooth page turning and easy flat-lay use',
+                                        'Ideal for schoolwork, office documentation, journaling, and daily planning'
+                                    ]
+                                },
+                                '527': {
+                                    id: '527',
+                                    slug: 'a4-premium-customize',
+                                    title: 'A4 Customized Notebook Premium',
+                                    price: '570',
+                                    images: [
+                                        'wp-content/uploads/2016/07/A4-thumbnail-600x720.jpg',
+                                        'wp-content/uploads/2016/07/cus-600x720.jpeg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Create your own personalized A4 notebook with our premium customization service. Add your own designs, photos, or text to make it truly unique. Perfect for students, professionals, or as a special gift.',
+                                    details: [
+                                        'A4 size (210 x 297 mm)',
+                                        'Premium quality paper',
+                                        'Custom front and back cover design',
+                                        'Multiple binding options available',
+                                        'Upload your own images or designs',
+                                        'High-quality printing and binding'
+                                    ]
+                                },
+                                '534': {
+                                    id: '534',
+                                    slug: 'a4-customize',
+                                    title: 'A4 Customized Notebook',
+                                    price: '570',
+                                    images: [
+                                        'wp-content/uploads/2016/07/A5-thumbnail-600x720.jpg',
+                                        'wp-content/uploads/2016/07/cus-600x720.jpeg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Design your perfect A4 notebook with our customization service. Compact and portable, ideal for daily use, journaling, or note-taking. Make it yours with personalized covers and designs.',
+                                    details: [
+                                        'A4 size (148 x 210 mm)',
+                                        'Premium quality paper',
+                                        'Custom front and back cover design',
+                                        'Perfect for daily use and portability',
+                                        'Upload your own images or designs',
+                                        'High-quality printing and binding'
+                                    ]
+                                },
+                                '10280': {
+                                    id: '10280',
+                                    slug: 'customized-greeting-card',
+                                    title: 'Customized Greeting Card',
+                                    price: '570',
+                                    images: [
+                                        'wp-content/uploads/2018/01/4side-front-2-600x720.jpg',
+                                        'wp-content/uploads/2017/05/Inner-Left-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Create personalized greeting cards for any occasion - birthdays, anniversaries, Eid, Valentine\'s Day, or special moments. Add your own photos, messages, and designs to make it truly special.',
+                                    details: [
+                                        'Fully customizable design',
+                                        'Add your own photos and messages',
+                                        'Available for all occasions',
+                                        'High-quality printing',
+                                        'Perfect for gifting',
+                                        'Multiple size options available'
+                                    ]
+                                },
+                                '34137': {
+                                    id: '34137',
+                                    slug: 'a4-customized-pocket-diary-pad',
+                                    title: 'A4 Customized Pocket Diary Pad',
+                                    price: '570',
+                                    images: [
+                                        'wp-content/uploads/2022/08/A6-diary-min-1-600x720.jpg',
+                                        'wp-content/uploads/2016/06/Pocket-Inside-1-600x720.jpg',
+                                        'wp-content/uploads/2025/07/back.png'
+                                    ],
+                                    description: 'Compact A4 pocket diary pad that fits perfectly in your bag or pocket. Customize it with your own design, making it perfect for daily planning, notes, or as a personalized gift.',
+                                    details: [
+                                        'A4 size - compact and portable',
+                                        'Custom cover design',
+                                        'Perfect for daily planning',
+                                        'High-quality paper',
+                                        'Upload your own images or designs',
+                                        'Ideal for on-the-go use'
+                                    ]
+                                },
+                                'eidi-envelopes': {
+                                    id: 'eidi-envelopes',
+                                    slug: 'eidi-envelopes-pack-of-6',
+                                    title: 'Eidi Envelopes - Pack of 6',
+                                    price: '150',
+                                    images: ['eid6.jpeg', 'eid1.jpeg', 'eid2.jpeg', 'eid3.jpeg', 'eid4.jpeg', 'eid5.jpeg'],
+                                    description: 'Cute, colourful Eidi envelopes — perfect for gifting Eidi. Pack of 6 with 5 festive designs.',
+                                    details: ['Pack of 6 envelopes', '5 unique festive designs']
+                                }
+                            };
+        
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        
+        // Load order details (handles both Eidi envelopes and other products)
+        function loadOrderDetails() {
+            var orderDetailsEl = document.getElementById('order-details');
+            var productId = getUrlParameter('id');
+            console.log('[ORDER] loadOrderDetails called, productId=', productId, 'orderDetailsEl=', !!orderDetailsEl);
+            if (!orderDetailsEl) { console.log('[ORDER] exit - no #order-details'); return; }
+            try {
+            const quantity = getUrlParameter('quantity') || '1';
+            const size = getUrlParameter('size') || 'A4';
+            const binding = getUrlParameter('binding') || 'Spiral';
+            const variant = getUrlParameter('variant') || sessionStorage.getItem('productVariant') || '4-subjects';
+            
+            // Store variant in sessionStorage
+            sessionStorage.setItem('productVariant', variant);
+            
+            if (!productId || !productsDatabase[productId]) {
+                console.log('[ORDER] product not found, productId=', productId, 'hasInDb=', !!(productId && productsDatabase[productId]));
+                orderDetailsEl.innerHTML = '<p>Product not found. Please go back and try again.</p>';
+                return;
+            }
+            console.log('[ORDER] product found:', productId, productsDatabase[productId].title);
+            const product = productsDatabase[productId];
+            
+            const isEidiEnvelopes = productId === 'eidi-envelopes';
+            var selectedEnvelopeDisplay = '';
+            var eidiDesignCount = 0;
+            var eidiPackPrice = 150;
+            var eidiTotalPacks = 0;
+            if (isEidiEnvelopes) {
+                try {
+                    var raw = sessionStorage.getItem('eidiEnvelope') || '';
+                    if (raw) {
+                        var parsed = JSON.parse(raw);
+                        var envelopeList = Array.isArray(parsed) ? parsed : [parsed];
+                        eidiDesignCount = envelopeList.length;
+                        selectedEnvelopeDisplay = envelopeList.join(', ');
+                    }
+                } catch (e) {
+                    selectedEnvelopeDisplay = sessionStorage.getItem('eidiEnvelope') || '';
+                    eidiDesignCount = 1;
+                }
+                selectedEnvelopeDisplay = String(selectedEnvelopeDisplay).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+            
+            // Calculate price and delivery
+            let unitPrice = parseInt(product.price);
+            let variantDisplayName = variant === '2-subjects' ? '2 Subjects Notebook' : variant === '4-subjects' ? '4 Subjects Notebook' : variant === '6-subjects' ? '6 Subjects Notebook' : variant === '8-subjects' ? '8 Subjects Notebook' : '4 Subjects Notebook';
+            let deliveryCharges;
+            const quantityNum = parseInt(quantity);
+            let subtotal, totalPrice;
+            
+            if (isEidiEnvelopes) {
+                eidiDesignCount = eidiDesignCount || 1;
+                eidiTotalPacks = eidiDesignCount * quantityNum;
+                unitPrice = eidiPackPrice;
+                variantDisplayName = 'Pack of 6 (Rs 150 per pack)';
+                subtotal = eidiTotalPacks * eidiPackPrice;
+                deliveryCharges = subtotal >= 2000 ? 0 : 200;
+                totalPrice = subtotal + deliveryCharges;
+            } else {
+                if (variant === '2-subjects') unitPrice = 270;
+                else if (variant === '4-subjects') unitPrice = 470;
+                else if (variant === '6-subjects') unitPrice = 670;
+                else if (variant === '8-subjects') unitPrice = 870;
+                deliveryCharges = (unitPrice * quantityNum) >= 2000 ? 0 : 200;
+                subtotal = unitPrice * quantityNum;
+                totalPrice = subtotal + deliveryCharges;
+            }
+            
+            // Check for custom design from sessionStorage
+            const designType = sessionStorage.getItem('designType');
+            const customDesignImage = sessionStorage.getItem('customDesignImage');
+            const selectedDesignUrl = sessionStorage.getItem('selectedDesignUrl');
+            
+            let designImageHTML = '';
+            if (designType === 'upload' && customDesignImage) {
+                designImageHTML = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="font-weight: 600; margin-bottom: 10px; color: #000;">Your Custom Front Page Design:</div>
+                        <img src="${customDesignImage}" alt="Custom Design" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="margin-top: 10px; font-size: 14px; color: #666;">This is the design you uploaded for the front page.</div>
+                    </div>
+                `;
+            } else if (designType === 'existing' && selectedDesignUrl) {
+                designImageHTML = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="font-weight: 600; margin-bottom: 10px; color: #000;">Selected Front Page Design:</div>
+                        <img src="${selectedDesignUrl}" alt="Selected Design" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #ddd;">
+                        <div style="margin-top: 10px; font-size: 14px; color: #666;">This is the design you selected from Campus Notecrafts.</div>
+                    </div>
+                `;
+            }
+
+            // Build note block HTML separately to avoid deeply nested template strings
+            let noteHtml = '';
+            if (isEidiEnvelopes) {
+                if (subtotal < 2000) {
+                    noteHtml = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border: 2px solid #ddd; border-radius: 4px; font-size: 14px; color: #333; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> Delivery charges Rs 200 apply for Eidi Envelopes. Free delivery on orders Rs 2000+.</p>
+                    </div>
+                    `;
+                } else {
+                    noteHtml = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border: 2px solid #4caf50; border-radius: 4px; font-size: 14px; color: #2e7d32; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> You qualify for free delivery on this order.</p>
+                    </div>
+                    `;
+                }
+            } else {
+                if (subtotal < 2000) {
+                    noteHtml = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #fff9e6; border: 2px solid #f4d03f; border-radius: 4px; font-size: 14px; color: #556b2f; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> Get free delivery on all orders worth Rs. 2000/- or more.</p>
+                    </div>
+                    `;
+                } else {
+                    noteHtml = `
+                    <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border: 2px solid #4caf50; border-radius: 4px; font-size: 14px; color: #2e7d32; line-height: 1.6;">
+                        <p style="margin: 0;"><strong>Note:</strong> Congratulations! You qualify for free delivery on this order.</p>
+                    </div>
+                    `;
+                }
+            }
+
+            const orderDetailsHTML = `
+                <div class="order-item">
+                    <img src="${product.images[0]}" alt="${product.title}" class="order-item-image">
+                    <div class="order-item-details">
+                        <div class="order-item-title">${product.title}</div>
+                        <div class="order-item-info">${isEidiEnvelopes ? 'Pack: Pack of 6 (Rs 150 per pack)' : 'Variant: ' + variantDisplayName}</div>
+                        ${isEidiEnvelopes && selectedEnvelopeDisplay ? `<div class="order-item-info">Envelope(s): ${selectedEnvelopeDisplay}</div>` : ''}
+                        ${isEidiEnvelopes ? `<div class="order-item-info">Quantity: ${quantity} pack(s) per design × ${eidiDesignCount} design(s) = ${eidiTotalPacks} packs</div><div class="order-item-info">${eidiTotalPacks} pack(s) × Rs ${eidiPackPrice}</div>` : ''}
+                        ${!isEidiEnvelopes ? `<div class="order-item-info">Size: ${size}</div><div class="order-item-info">Binding: ${binding}</div><div class="order-item-info">Quantity: ${quantity}</div>` : ''}
+                        <div class="order-item-price">Rs ${unitPrice}${isEidiEnvelopes ? ' per pack' : ''}</div>
+                    </div>
+                </div>
+                ${designImageHTML}
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>${isEidiEnvelopes ? (eidiTotalPacks + ' × Rs ' + eidiPackPrice + ' = Rs ' + subtotal) : (quantityNum + ' × Rs ' + unitPrice + ' = Rs ' + subtotal)}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery Charges:</span>
+                        <span>${deliveryCharges === 0 ? '<span style="color: #28a745; font-weight: 600;">FREE</span>' : 'Rs ' + deliveryCharges}</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span>Rs ${totalPrice}</span>
+                    </div>
+                    ${noteHtml}
+                </div>
+            `;
+            
+            console.log('[ORDER] setting orderDetailsHTML, length=', orderDetailsHTML.length);
+            orderDetailsEl.innerHTML = orderDetailsHTML;
+            console.log('[ORDER] order-details filled OK');
+            } catch (err) {
+                console.error('[ORDER] loadOrderDetails error:', err);
+                orderDetailsEl.innerHTML = '<p>Could not load order details. <a href="single-product.html?id=eidi-envelopes">Go back to product</a>.</p><pre style="font-size:12px;margin-top:10px;color:#666;">' + (err.message || err) + '</pre>';
+            }
+        }
+        
+        // Handle form submission
+        var orderFormEl = document.getElementById('order-form');
+        if (!orderFormEl) {
+            console.log('[ORDER] order-form element not found, form handler not attached');
+        }
+        (orderFormEl || document).addEventListener('submit', function(e) {
+            if (orderFormEl && e.target !== orderFormEl) return;
+            e.preventDefault();
+            
+            const productId = getUrlParameter('id');
+            const quantity = getUrlParameter('quantity') || '1';
+            const variant = getUrlParameter('variant') || sessionStorage.getItem('productVariant') || '4-subjects';
+            const product = productsDatabase[productId];
+            
+            if (!product) {
+                alert('Product not found. Please go back and try again.');
+                return;
+            }
+            
+            const isEidiEnvelopes = productId === 'eidi-envelopes';
+            const quantityNum = parseInt(quantity);
+            let unitPrice = parseInt(product.price);
+            let variantDisplayName = variant === '2-subjects' ? '2 Subjects Notebook' : variant === '4-subjects' ? '4 Subjects Notebook' : variant === '6-subjects' ? '6 Subjects Notebook' : variant === '8-subjects' ? '8 Subjects Notebook' : '4 Subjects Notebook';
+            let deliveryCharges, subtotal, totalPrice;
+            var eidiDesignCount = 0;
+            if (isEidiEnvelopes) {
+                try {
+                    var raw = sessionStorage.getItem('eidiEnvelope') || '';
+                    if (raw) {
+                        var p = JSON.parse(raw);
+                        eidiDesignCount = Array.isArray(p) ? p.length : 1;
+                    } else { eidiDesignCount = 1; }
+                } catch (e) { eidiDesignCount = 1; }
+                var totalPacks = eidiDesignCount * quantityNum;
+                var packPrice = 150;
+                subtotal = totalPacks * packPrice;
+                deliveryCharges = subtotal >= 2000 ? 0 : 200;
+                totalPrice = subtotal + deliveryCharges;
+                unitPrice = packPrice;
+                variantDisplayName = 'Pack of 6 (Rs 150 per pack)';
+            } else {
+                if (variant === '2-subjects') unitPrice = 270;
+                else if (variant === '4-subjects') unitPrice = 470;
+                else if (variant === '6-subjects') unitPrice = 670;
+                else if (variant === '8-subjects') unitPrice = 870;
+                deliveryCharges = (unitPrice * quantityNum) >= 2000 ? 0 : 200;
+                subtotal = unitPrice * quantityNum;
+                totalPrice = subtotal + deliveryCharges;
+            }
+            const selectedEnvelopeForForm = isEidiEnvelopes ? (sessionStorage.getItem('eidiEnvelope') || '') : '';
+            var eidiTotalPacksForForm = 0;
+            if (isEidiEnvelopes) {
+                try {
+                    var r = sessionStorage.getItem('eidiEnvelope') || '';
+                    if (r) { var q = JSON.parse(r); eidiTotalPacksForForm = (Array.isArray(q) ? q.length : 1) * quantityNum; }
+                } catch (e) {}
+            }
+            const formData = {
+                fullName: document.getElementById('full-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                postalCode: document.getElementById('postal-code').value,
+                notes: document.getElementById('notes').value,
+                productId: productId,
+                quantity: quantity,
+                variant: isEidiEnvelopes ? 'pack-of-6' : variant,
+                variantDisplayName: variantDisplayName,
+                envelope: selectedEnvelopeForForm,
+                eidiTotalPacks: isEidiEnvelopes ? eidiTotalPacksForForm : 0,
+                size: isEidiEnvelopes ? '—' : (getUrlParameter('size') || 'A4'),
+                binding: isEidiEnvelopes ? '—' : (getUrlParameter('binding') || 'Spiral'),
+                subtotal: subtotal,
+                deliveryCharges: deliveryCharges,
+                totalPrice: totalPrice
+            };
+            
+            // Store form data in sessionStorage
+            sessionStorage.setItem('orderData', JSON.stringify(formData));
+            
+            // Redirect to confirmation page
+            window.location.href = 'confirmation.html';
+        });
+        
+        // Function to pre-fill form if data exists in sessionStorage
+        function prefillForm() {
+            const orderDataStr = sessionStorage.getItem('orderData');
+            if (orderDataStr) {
+                try {
+                    const orderData = JSON.parse(orderDataStr);
+                    
+                    // Pre-fill form fields
+                    if (orderData.fullName) document.getElementById('full-name').value = orderData.fullName;
+                    if (orderData.email) document.getElementById('email').value = orderData.email;
+                    if (orderData.phone) document.getElementById('phone').value = orderData.phone;
+                    if (orderData.address) document.getElementById('address').value = orderData.address;
+                    if (orderData.city) document.getElementById('city').value = orderData.city;
+                    if (orderData.postalCode) document.getElementById('postal-code').value = orderData.postalCode;
+                    if (orderData.notes) document.getElementById('notes').value = orderData.notes;
+                } catch (e) {
+                    console.error('Error pre-filling form:', e);
+                }
+            }
+        }
+        
+        // Initialize order page once DOM is ready
+        function initOrderPage() {
+            console.log('[INIT] initOrderPage called, id=', getUrlParameter('id'));
+            loadOrderDetails();
+            prefillForm();
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('[INIT] DOMContentLoaded');
+                initOrderPage();
+            });
+        } else {
+            initOrderPage();
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f5f5f5;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px 0;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #000000; padding: 30px 20px; text-align: center;">
+                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">H&S NoteCraft</h1>
+                        </td>
+                    </tr>
+                    
+                    <!-- Success Message -->
+                    <tr>
+                        <td style="padding: 40px 30px; text-align: center;">
+                            <div style="width: 80px; height: 80px; background-color: #4caf50; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: #ffffff; font-size: 40px; font-weight: bold;">✓</span>
+                            </div>
+                            <h2 style="color: #000000; margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">Order Confirmed!</h2>
+                            <p style="color: #666666; margin: 0; font-size: 16px; line-height: 1.6;">
+                                Dear {{customer_name}},
+                            </p>
+                            <p style="color: #666666; margin: 15px 0 0 0; font-size: 16px; line-height: 1.6;">
+                                Thank you for your order with H&S NoteCraft! We have received your order and will process it shortly.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Order Details Section -->
+                    <tr>
+                        <td style="padding: 0 30px;">
+                            <div style="background-color: #f9f9f9; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+                                <h3 style="color: #000000; margin: 0 0 20px 0; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Order Details</h3>
+                                
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">Product:</strong>
+                                        </td>
+                                        <td style="padding: 8px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 14px;">{{product_name}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">Variant:</strong>
+                                        </td>
+                                        <td style="padding: 8px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 14px;">{{product_variant}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">Size:</strong>
+                                        </td>
+                                        <td style="padding: 8px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 14px;">{{product_size}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">Binding:</strong>
+                                        </td>
+                                        <td style="padding: 8px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 14px;">{{product_binding}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">Quantity:</strong>
+                                        </td>
+                                        <td style="padding: 8px 0; text-align: right;">
+                                            <span style="color: #666666; font-size: 14px;">{{quantity}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; border-top: 1px solid #dddddd; padding-top: 15px;">
+                                            <strong style="color: #000000; font-size: 18px;">Total Price:</strong>
+                                        </td>
+                                        <td style="padding: 8px 0; text-align: right; border-top: 1px solid #dddddd; padding-top: 15px;">
+                                            <span style="color: #000000; font-size: 20px; font-weight: bold;">Rs {{total_price}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+
+                      <!-- Image -->
+                      <tr>
+                        <td style="padding: 0 30px;">
+                            <div style="background-color: #f9f9f9; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+                                <!-- <h3 style="color: #000000; margin: 0 0 20px 0; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Order Details</h3> -->
+                                
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        {{{design_image}}}
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Delivery Information Section -->
+                    <tr>
+                        <td style="padding: 0 30px 20px 30px;">
+                            <div style="background-color: #f9f9f9; border-radius: 8px; padding: 25px;">
+                                <h3 style="color: #000000; margin: 0 0 20px 0; font-size: 20px; font-weight: bold; border-bottom: 2px solid #000000; padding-bottom: 10px;">Delivery Information</h3>
+                                
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">Delivery Address:</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 5px 0 15px 0;">
+                                            <span style="color: #666666; font-size: 14px; line-height: 1.6;">{{delivery_address}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">City:</strong>
+                                            <span style="color: #666666; font-size: 14px; margin-left: 10px;">{{city}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0;">
+                                            <strong style="color: #333333; font-size: 14px;">Postal Code:</strong>
+                                            <span style="color: #666666; font-size: 14px; margin-left: 10px;">{{postal_code}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Order Notes -->
+                    <tr>
+                        <td style="padding: 0 30px 20px 30px;">
+                            <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px;">
+                                <strong style="color: #856404; font-size: 14px;">Order Notes:</strong>
+                                <p style="color: #856404; margin: 5px 0 0 0; font-size: 14px; line-height: 1.6;">{{order_notes}}</p>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Important Information -->
+                    <tr>
+                        <td style="padding: 0 30px 20px 30px;">
+                            <div style="background-color: #e3f2fd; border-left: 4px solid #2196f3; padding: 20px; border-radius: 4px;">
+                                <h4 style="color: #1565c0; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">What's Next?</h4>
+                                <ul style="color: #1565c0; margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+                                    <li>You will receive a confirmation call within 24 hours</li>
+                                    <li>Standard delivery time is 3-5 business days</li>
+                                    <li>Payment will be collected via Cash on Delivery (COD)</li>
+                                    <li>Order Date: {{order_date}}</li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Contact Information -->
+                    <tr>
+                        <td style="padding: 0 30px 30px 30px; text-align: center;">
+                            <p style="color: #666666; margin: 0 0 10px 0; font-size: 14px;">
+                                If you have any questions about your order, please contact us.
+                            </p>
+                            <p style="color: #666666; margin: 0; font-size: 14px;">
+                                <strong>Email:</strong> hsnotecraft@gmail.com
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f5f5f5; padding: 20px 30px; text-align: center; border-top: 1px solid #dddddd;">
+                            <p style="color: #999999; margin: 0; font-size: 12px;">
+                                © 2025 H&S NoteCraft. All rights reserved.
+                            </p>
+                            <p style="color: #999999; margin: 5px 0 0 0; font-size: 12px;">
+                                Thank you for choosing H&S NoteCraft!
+                            </p>
+                        </td>
+                    </tr>
+
+                 
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
